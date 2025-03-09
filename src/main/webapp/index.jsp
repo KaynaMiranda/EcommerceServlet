@@ -1,132 +1,104 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<!DOCTYPE html>
 <html>
 <head>
-    <title>Home Ecommerce</title>
-     <style>
-        ul { 
-            display: flex;
-            gap: 12px;
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        li {
-            list-style: none;
-        }
-        header {
-            background-color: #003366;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header-title {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .cart-button {
-            background-color: #ffcc00;
-            color: #003366;
-            border: none;
-            padding: 10px 15px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .cart-button:hover {
-            background-color: #e6b800;
-        }
-         .container {
-             display: flex;
-             flex-wrap: wrap;
-             gap: 20px;
-         }
-         .card {
-             border: 1px solid #ddd;
-             border-radius: 8px;
-             padding: 16px;
-             width: 250px;
-             box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-         }
-         .card img {
-            height: 250px;
-         }
-         .card .container-comprar {
-            width: 100%;
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 10px
-         }
-         .card .container-comprar input {
-            width: 2rem;
-         }
-        .card .container-comprar button {
-            background-color: #ffcc00;
-            color: #003366;
-            border: none;
-            padding: 10px 15px;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
             font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
             cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        p {
+            margin-top: 20px;
+        }
+
+        a {
+            color: #007BFF;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            font-weight: bold;
         }
 
-        .button:hover {
-            background-color: #e6b800;
+        a:hover {
+            text-decoration: underline;
         }
 
-         .card h3 { margin: 0; }
-         .price { font-weight: bold; color: green; }
-         .quantity { font-size: 14px; color: #555; }
-     </style>
+
+    </style>
+
 </head>
 <body>
-    <header class="header">
-        <div class="header-title">TruckMaster Peças - Qualidade e Durabilidade para seu Caminhão!</div>
-        <a href="carrinho.jsp" class="cart-button">🛒 Carrinho</a>
-    </header>
-    <h2>Lista de Produtos</h2>
-        <div class="container">
-            <ul>
-
-            </ul>
-        </div>
-
-    <script>
-        const url = "";
-        const produtos = [];
-
-        fetch(url)
-            .then(res => produtos.push(res.json()))
-            .catch(err => console.log(err));
-
-        const lis = produtos.reduce((acc, {id, descricao, preco, quantidade}) => {
-            return acc += `
-                <li>
-                    <div id="`+id+`" class="card">
-                        <img src="./img.jpg" alt="">
-                        <h3>`+descricao+`</h3>
-                        <p class="price">Preço: R$ `+preco+`</p>
-                        <p class="quantity">Quantidade: `+quantidade+`</p>
-                        <div class="container-comprar">
-                            <button>comprar</button>
-                            <input type="number">
-                        </div>
-                    </div>
-                </li>
-            `;
-        }, "");
-
-
-        console.log(lis)
-        document.querySelector("ul").innerHTML = lis == ""
-            ? "<p>Nenhum produto disponível.</p>"
-            : lis
-    </script>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form action="login" method="post">
+            <input type="text" name="username" placeholder="Nome de Usuário" required/>
+            <input type="password" name="password" placeholder="Senha" required/>
+            <input type="submit" value="Entrar"/>
+        </form>
+        <% if (request.getAttribute("erro") != null) { %>
+            <div class="error-message"><%= request.getAttribute("erro") %></div>
+        <% } %>
+        <p style="text-align: center;">Não tem uma conta? <a href="cadastro.jsp">Cadastrar</a></p>
+    </div>
 </body>
 </html>
